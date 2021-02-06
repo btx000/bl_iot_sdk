@@ -3,7 +3,7 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := bl602_demo_wifi
+PROJECT_NAME := bl602_http_ota
 PROJECT_PATH := $(abspath .)
 PROJECT_BOARD := evb
 export PROJECT_PATH PROJECT_BOARD
@@ -22,15 +22,11 @@ COMPONENTS_NETWORK := sntp dns_server
 COMPONENTS_BLSYS   := bltime blfdt blmtd blota bloop loopadc looprt loopset
 COMPONENTS_VFS     := romfs
 
-INCLUDE_COMPONENTS += freertos_riscv_ram bl602 bl602_std bl602_wifi bl602_wifidrv hal_drv lwip lwip_dhcpd mbedtls vfs yloop utils cli httpc netutils blog blog_testc
-#max.su
-INCLUDE_COMPONENTS += hwcloud_iot_link cjson
-
+INCLUDE_COMPONENTS += freertos_riscv_ram bl602 bl602_std bl602_wifi bl602_wifidrv hal_drv lwip lwip_dhcpd mbedtls vfs yloop utils cli aws-iot httpc netutils blog blog_testc
 INCLUDE_COMPONENTS += easyflash4
 INCLUDE_COMPONENTS += $(COMPONENTS_NETWORK)
 INCLUDE_COMPONENTS += $(COMPONENTS_BLSYS)
 INCLUDE_COMPONENTS += $(COMPONENTS_VFS)
 INCLUDE_COMPONENTS += $(PROJECT_NAME)
-## Hwcloud
-include ./project.mk
+include $(BL60X_SDK_PATH)/make_scripts_riscv/project.mk
 

@@ -81,11 +81,7 @@
 #include <utils_log.h>
 #include <libfdt.h>
 #include <blog.h>
-
-#ifdef CONFIG_HWCLOUD_IOT_LINK
-#include <example_hwcloud_iot_link.h> 
-#endif
-
+#include "bl_http_ota.h"
 #define mainHELLO_TASK_PRIORITY     ( 20 )
 #define UART_ID_2 (2)
 #define WIFI_AP_PSM_INFO_SSID           "conf_ap_ssid"
@@ -515,13 +511,11 @@ static void event_cb_wifi_event(input_event_t *event, void *private_data)
     }
 }
 
-#if 0  //
 static void __attribute__((unused)) cmd_aws(char *buf, int len, int argc, char **argv)
 {
 void aws_main_entry(void *arg);
     xTaskCreate(aws_main_entry, (char*)"aws_iot", 4096, NULL, 10, NULL);
 }
-#endif 
 
 static void cmd_pka(char *buf, int len, int argc, char **argv)
 {
@@ -753,7 +747,7 @@ static void cmd_stack_wifi(char *buf, int len, int argc, char **argv)
 }
 
 const static struct cli_command cmds_user[] STATIC_CLI_CMD_ATTRIBUTE = {
-        // { "aws", "aws iot demo", cmd_aws},  //
+        { "aws", "aws iot demo", cmd_aws},
         { "pka", "pka iot demo", cmd_pka},
         { "wifi", "wifi", cmd_wifi},
         { "sha", "sha iot demo", cmd_sha},
@@ -791,6 +785,7 @@ int codex_debug_cli_init(void);
     bl_wdt_cli_init();
     bl_gpio_cli_init();
     looprt_test_cli_init();
+    bl_http_ota_cli_init();
 }
 
 static int get_dts_addr(const char *name, uint32_t *start, uint32_t *off)
@@ -1013,11 +1008,6 @@ void bfl_main()
 
     puts("[OS] Starting proc_hellow_entry task...\r\n");
     xTaskCreateStatic(proc_hellow_entry, (char*)"hellow", 512, NULL, 15, proc_hellow_stack, &proc_hellow_task);
-
-    #ifdef CONFIG_HWCLOUD_IOT_LINK
-    example_hwcloud_iot_link(); 
-    #endif
-    
     puts("[OS] Starting aos_loop_proc task...\r\n");
     xTaskCreateStatic(aos_loop_proc, (char*)"event_loop", 1024, NULL, 15, aos_loop_proc_stack, &aos_loop_proc_task);
     puts("[OS] Starting TCP/IP Stack...\r\n");
