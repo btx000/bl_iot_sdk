@@ -4,11 +4,10 @@
     "description": "Bouffalolab bl_iot_sdk. Support BL602 Wi-Fi/BLE Combo RISC-V based Chip.",
     "keywords": [
         "framework",
-        "bl_iot_sdk",
         "Bouffalolab",
         "bl602"
     ],
-    "license": "Apache 2.0",
+    "license": "Apache-2.0",
     "repository": {
       "type": "git",
       "url": "https://github.com/btx000/bl_iot_sdk"
